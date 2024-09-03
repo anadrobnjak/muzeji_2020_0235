@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Pokreće migracije.
      *
      * @return void
      */
@@ -15,12 +15,20 @@ return new class extends Migration
     {
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('museum_id');
+            $table->date('reservation_date'); // Datum rezervacije
+            $table->integer('num_tickets'); // Broj karata
             $table->timestamps();
+
+            // Definisanje spoljnog ključa za 'user_id' i 'museum_id'
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('museum_id')->references('id')->on('museums')->onDelete('cascade');
         });
     }
 
     /**
-     * Reverse the migrations.
+     * Vraća migracije unazad.
      *
      * @return void
      */

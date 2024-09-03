@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Pokreće migracije.
      *
      * @return void
      */
@@ -15,12 +15,19 @@ return new class extends Migration
     {
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id'); // ID korisnika koji je poslao poruku
+            $table->unsignedBigInteger('museum_id'); // ID muzeja kojem je poruka upućena
+            $table->text('content'); // Sadržaj poruke
             $table->timestamps();
+
+            // Definisanje spoljnog ključa za 'user_id' i 'museum_id'
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('museum_id')->references('id')->on('museums')->onDelete('cascade');
         });
     }
 
     /**
-     * Reverse the migrations.
+     * Vraća migracije unazad.
      *
      * @return void
      */
